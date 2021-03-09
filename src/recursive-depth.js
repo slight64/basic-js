@@ -1,43 +1,50 @@
-const CustomError = require("../extensions/custom-error");
+const CustomError = require('../extensions/custom-error');
 
 module.exports = class DepthCalculator {
   calculateDepth(arr) {
-    let depth = 0;
-    let calcdepth;
-    if (Array.isArray(arr)) {
-      depth++
-      console.log(depth);
-      for (let i = 0; i < arr.length; i++) {
-        if ( arr[i] instanceof Array) {
-
-          calcdepth = calculateDepth(arr[i]);
-
-          depth = depth + calcdepth
-        }
+    let depthArr = [];
+    if (arr.length === 0) return 1;
+    for (let i = 0; i < arr.length; i++) {
+      let depth = 0;
+      if (Array.isArray(arr[i])) {
+        depth = 1 + this.calculateDepth(arr[i])
+      } else {
+        depth = 1
       }
-      return depth
+      depthArr.push(depth);
     }
-
+    return Math.max(...depthArr);
   }
 };
 
 function calculateDepth(arr) {
-  let depth = 0;
-  let calcdepth;
-  if (Array.isArray(arr)) {
-    depth++
-    console.log(depth);
-    for (let i = 0; i < arr.length; i++) {
-      if ( arr[i] instanceof Array) {
-        console.log(true)
-        calcdepth = calculateDepth(arr[i]);
-        console.log(calcdepth)
-        depth = depth + calcdepth
-      }
+  let depthArr = [];
+  if (arr.length === 0) return 1;
+  for (let i = 0; i < arr.length; i++) {
+    let depth = 0;
+    if (Array.isArray(arr[i])) {
+      depth = 1 + calculateDepth(arr[i])
+    } else {
+      depth = 1
     }
-    return depth
+    depthArr.push(depth);
   }
-
+  return Math.max(...depthArr);
 }
 
-console.log(calculateDepth([],[[]]))
+console.log(calculateDepth([1, [8, [[]]], 2, 3, [8, []], 4, 5, ['6575', ['adas', ['dfg', [0]]]]]));
+
+
+
+// console.log(glubina(
+//   [1,
+//       [8,
+//       [
+//         []]], 2, 3,
+//     [8,
+//       []], 4, 5,
+//     ['6575',
+//       ['adas',
+//         ['dfg',
+//           [0]]]]]));
+
